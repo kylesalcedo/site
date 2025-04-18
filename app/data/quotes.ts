@@ -10,6 +10,7 @@ export const quotes = [
   "[the best posture is your next posture]",
   "[build 'til u flow, then build 'til you float]",
   "[ctrl+alt+heal]",
+  "[your IP address is ___]",
 ]
 
 export function getRandomQuote(): string {

@@ -7,15 +7,28 @@ import { getRandomQuote } from "../data/quotes"
 interface TerminalProps {
   text?: string
   isAboutMode?: boolean
+  userIp: string | null
 }
 
-export default function Terminal({ text, isAboutMode = false }: TerminalProps) {
+export default function Terminal({ text, isAboutMode = false, userIp }: TerminalProps) {
   const [displayText, setDisplayText] = useState<string>("")
+  const ipTemplate = "[your IP address is ___]";
 
   // Set initial random quote or provided text
   useEffect(() => {
-    setDisplayText(text || getRandomQuote())
-  }, [text])
+    const initialText = text || getRandomQuote();
+    setDisplayText(initialText);
+  }, [text]); // Update only when text prop changes (or initially)
+
+  // Determine the final text to display, handling the IP template
+  let finalDisplay = displayText;
+  if (displayText === ipTemplate) {
+    if (userIp && userIp !== 'unknown') {
+      finalDisplay = `[your IP address is ${userIp}]`;
+    } else {
+      finalDisplay = "[fetching your IP...]"
+    }
+  }
 
   return (
     <motion.div
@@ -42,13 +55,13 @@ export default function Terminal({ text, isAboutMode = false }: TerminalProps) {
         <div className="flex">
           <span className="text-blue-400 mr-2">$</span>
           <motion.span
-            key={displayText}
+            key={finalDisplay}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.3 }}
             className={`whitespace-pre-line ${isAboutMode ? "text-yellow-300" : ""}`}
           >
-            {isAboutMode ? displayText : displayText}
+            {isAboutMode ? finalDisplay : finalDisplay}
           </motion.span>
         </div>
         <div className="h-4 w-2 bg-green-400 inline-block animate-pulse ml-1"></div>

@@ -1,17 +1,40 @@
 "use client"
 
-import { useState, useCallback } from "react"
+import { useState, useCallback, useEffect } from "react"
 import NetworkBackground from "./components/network-background"
 import SocialIcons from "./components/social-icons"
 import PixelCharacter from "./components/pixel-character"
 import Terminal from "./components/terminal"
 import ErrorPopup from "./components/error-popup"
 import HamburgerMenu from "./components/hamburger-menu"
-import { getRandomQuote } from "./data/quotes"
+import { getRandomQuote, quotes } from "./data/quotes"
 
 export default function Home() {
   const [terminalText, setTerminalText] = useState<string | undefined>(undefined)
   const [isAboutMode, setIsAboutMode] = useState(false)
+  const [userIp, setUserIp] = useState<string | null>(null)
+
+  useEffect(() => {
+    fetch('/api/ip')
+      .then(res => {
+        if (!res.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return res.json();
+      })
+      .then(data => {
+        if (data.ip) {
+          setUserIp(data.ip);
+        }
+      })
+      .catch(error => {
+        console.error("Failed to fetch IP:", error);
+        setUserIp("error");
+      });
+
+    setTerminalText(getRandomQuote());
+
+  }, []);
 
   const handleIconHover = (text: string) => {
     if (!isAboutMode) {
@@ -33,7 +56,6 @@ made from imported parts and inartificial intelligence`
     setTerminalText(aboutText)
     setIsAboutMode(true)
 
-    // Reset to random quotes after 10 seconds
     setTimeout(() => {
       setTerminalText(getRandomQuote())
       setIsAboutMode(false)
@@ -49,7 +71,7 @@ made from imported parts and inartificial intelligence`
 
       <div className="relative z-10 flex flex-1 flex-col items-center justify-center space-y-8 mb-12">
         <PixelCharacter currentAnimation="idle" />
-        <Terminal text={terminalText} isAboutMode={isAboutMode} />
+        <Terminal text={terminalText} isAboutMode={isAboutMode} userIp={userIp} />
       </div>
 
       <div className="relative z-10 w-full max-w-4xl mb-16">
