@@ -6,12 +6,13 @@ import { Menu, X } from "lucide-react"
 
 interface HamburgerMenuProps {
   onAboutClick: () => void
-  onHover: (text: string) => void
+  onHoverAbout: () => void
+  onHoverBiz: () => void
   onHoverEnd: () => void
   onBizClick: () => void
 }
 
-export default function HamburgerMenu({ onAboutClick, onHover, onHoverEnd, onBizClick }: HamburgerMenuProps) {
+export default function HamburgerMenu({ onAboutClick, onHoverAbout, onHoverBiz, onHoverEnd, onBizClick }: HamburgerMenuProps) {
   const [isOpen, setIsOpen] = useState(false)
 
   const toggleMenu = () => setIsOpen(!isOpen)
@@ -44,7 +45,7 @@ export default function HamburgerMenu({ onAboutClick, onHover, onHoverEnd, onBiz
                 <li>
                   <button
                     onClick={handleAboutClick}
-                    onMouseEnter={() => onHover("[about]")}
+                    onMouseEnter={onHoverAbout}
                     onMouseLeave={onHoverEnd}
                     className="text-white hover:text-gray-300 block w-full text-left"
                   >
@@ -54,7 +55,7 @@ export default function HamburgerMenu({ onAboutClick, onHover, onHoverEnd, onBiz
                 <li>
                   <button
                     onClick={() => { onBizClick(); setIsOpen(false) }}
-                    onMouseEnter={() => onHover("[biz]")}
+                    onMouseEnter={onHoverBiz}
                     onMouseLeave={onHoverEnd}
                     className="text-white hover:text-gray-300 block w-full text-left"
                   >

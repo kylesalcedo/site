@@ -75,11 +75,31 @@ made from imported parts and inartificial intelligence`
     }, 10000)
   }, [])
 
+  const handleMenuHoverAbout = () => {
+    setTerminalText(`Full Stack Doctor of Physical Therapy
+programmed in Los Angeles, California
+made from imported parts and inartificial intelligence`)
+    setHeaderText("about.txt")
+    setIsAboutMode(false)
+  }
+
+  const handleMenuHoverBiz = () => {
+    setTerminalText("Always verify with at least 3 of the following:")
+    setHeaderText("biz.exe")
+    setIsAboutMode(false)
+  }
+
   return (
     <main className="relative flex min-h-screen flex-col items-center justify-between overflow-hidden bg-[#1a4b6d]">
       <NetworkBackground />
 
-      <HamburgerMenu onAboutClick={showAboutText} onBizClick={showBizText} onHover={handleIconHover} onHoverEnd={handleIconHoverEnd} />
+      <HamburgerMenu
+        onAboutClick={showAboutText}
+        onBizClick={showBizText}
+        onHoverAbout={handleMenuHoverAbout}
+        onHoverBiz={handleMenuHoverBiz}
+        onHoverEnd={handleIconHoverEnd}
+      />
 
       <div className="relative z-10 flex flex-1 flex-col items-center justify-center space-y-8 mb-12">
         <PixelCharacter currentAnimation="idle" />
