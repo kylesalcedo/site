@@ -1,15 +1,17 @@
 "use client"
 
-import type React from "react"
-import { useState } from "react"
+import React, { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Menu, X } from "lucide-react"
 
 interface HamburgerMenuProps {
   onAboutClick: () => void
+  onHover: (text: string) => void
+  onHoverEnd: () => void
+  onBizClick: () => void
 }
 
-const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ onAboutClick }) => {
+export default function HamburgerMenu({ onAboutClick, onHover, onHoverEnd, onBizClick }: HamburgerMenuProps) {
   const [isOpen, setIsOpen] = useState(false)
 
   const toggleMenu = () => setIsOpen(!isOpen)
@@ -40,8 +42,23 @@ const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ onAboutClick }) => {
             <nav>
               <ul className="space-y-2">
                 <li>
-                  <button onClick={handleAboutClick} className="text-white hover:text-gray-300 block w-full text-left">
+                  <button
+                    onClick={handleAboutClick}
+                    onMouseEnter={() => onHover("[about]")}
+                    onMouseLeave={onHoverEnd}
+                    className="text-white hover:text-gray-300 block w-full text-left"
+                  >
                     About
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => { onBizClick(); setIsOpen(false) }}
+                    onMouseEnter={() => onHover("[biz]")}
+                    onMouseLeave={onHoverEnd}
+                    className="text-white hover:text-gray-300 block w-full text-left"
+                  >
+                    $$$
                   </button>
                 </li>
               </ul>
@@ -52,5 +69,3 @@ const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ onAboutClick }) => {
     </div>
   )
 }
-
-export default HamburgerMenu

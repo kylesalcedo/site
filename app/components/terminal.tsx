@@ -8,9 +8,10 @@ interface TerminalProps {
   text?: string
   isAboutMode?: boolean
   userIp: string | null
+  headerText?: string
 }
 
-export default function Terminal({ text, isAboutMode = false, userIp }: TerminalProps) {
+export default function Terminal({ text, isAboutMode = false, userIp, headerText }: TerminalProps) {
   const [displayText, setDisplayText] = useState<string>("")
   const ipTemplate = "[your IP address is ___]";
 
@@ -48,7 +49,7 @@ export default function Terminal({ text, isAboutMode = false, userIp }: Terminal
           <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
           <div className="w-3 h-3 rounded-full bg-green-500"></div>
         </div>
-        <div className="text-xs text-gray-400 mx-auto">{isAboutMode ? "about.txt" : "kyle.exe"}</div>
+        <div className="text-xs text-gray-400 mx-auto">{headerText ? headerText : isAboutMode ? "about.txt" : "kyle.exe"}</div>
       </div>
 
       <div className="h-full overflow-y-auto">

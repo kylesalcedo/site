@@ -5,7 +5,6 @@ import NetworkBackground from "./components/network-background"
 import SocialIcons from "./components/social-icons"
 import PixelCharacter from "./components/pixel-character"
 import Terminal from "./components/terminal"
-import ErrorPopup from "./components/error-popup"
 import HamburgerMenu from "./components/hamburger-menu"
 import { getRandomQuote, quotes } from "./data/quotes"
 
@@ -13,6 +12,7 @@ export default function Home() {
   const [terminalText, setTerminalText] = useState<string | undefined>(undefined)
   const [isAboutMode, setIsAboutMode] = useState(false)
   const [userIp, setUserIp] = useState<string | null>(null)
+  const [headerText, setHeaderText] = useState<string | undefined>(undefined)
 
   useEffect(() => {
     fetch('/api/ip')
@@ -54,6 +54,7 @@ programmed in Los Angeles, California
 made from imported parts and inartificial intelligence`
 
     setTerminalText(aboutText)
+    setHeaderText(undefined)
     setIsAboutMode(true)
 
     setTimeout(() => {
@@ -62,16 +63,27 @@ made from imported parts and inartificial intelligence`
     }, 10000)
   }, [])
 
+  const showBizText = useCallback(() => {
+    const bizText = "Always verify with at least 3 of the following:"
+    setTerminalText(bizText)
+    setHeaderText("biz.exe")
+    setIsAboutMode(false)
+
+    setTimeout(() => {
+      setTerminalText(getRandomQuote())
+      setHeaderText(undefined)
+    }, 10000)
+  }, [])
+
   return (
     <main className="relative flex min-h-screen flex-col items-center justify-between overflow-hidden bg-[#1a4b6d]">
       <NetworkBackground />
-      <ErrorPopup />
 
-      <HamburgerMenu onAboutClick={showAboutText} />
+      <HamburgerMenu onAboutClick={showAboutText} onBizClick={showBizText} onHover={handleIconHover} onHoverEnd={handleIconHoverEnd} />
 
       <div className="relative z-10 flex flex-1 flex-col items-center justify-center space-y-8 mb-12">
         <PixelCharacter currentAnimation="idle" />
-        <Terminal text={terminalText} isAboutMode={isAboutMode} userIp={userIp} />
+        <Terminal text={terminalText} isAboutMode={isAboutMode} userIp={userIp} headerText={headerText} />
       </div>
 
       <div className="relative z-10 w-full max-w-4xl mb-16">

@@ -2,6 +2,7 @@ import type React from "react"
 import "./globals.css"
 import type { Metadata } from "next"
 import { Space_Grotesk } from "next/font/google"
+import EventManager from "./components/event-manager"
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -28,7 +29,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${spaceGrotesk.variable} font-sans`}>
-      <body className="bg-[#1a4b6d] min-h-screen">{children}</body>
+      <body className="bg-[#1a4b6d] min-h-screen">
+        <EventManager />
+        {children}
+      </body>
     </html>
   )
 }

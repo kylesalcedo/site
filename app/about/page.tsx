@@ -2,7 +2,6 @@
 import NetworkBackground from "../components/network-background"
 import PixelCharacter from "../components/pixel-character"
 import Terminal from "../components/terminal"
-import ErrorPopup from "../components/error-popup"
 import Link from "next/link"
 import { ArrowLeft } from "lucide-react"
 import { motion } from "framer-motion"
@@ -11,7 +10,6 @@ export default function AboutPage() {
   return (
     <main className="relative flex min-h-screen flex-col items-center overflow-hidden bg-[#1a4b6d]">
       <NetworkBackground />
-      <ErrorPopup />
 
       {/* Back button */}
       <motion.div
