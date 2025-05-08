@@ -34,9 +34,8 @@ export default function FlyingPunk({ onComplete }: FlyingPunkProps) {
       src="/flyingpunk.png"
       alt="Flying Punk"
       className="fixed z-50 w-60 h-auto select-none pointer-events-none"
-      style={{ top: startPos.y, left: startPos.x }}
-      initial={{ x: startPos.x, y: startPos.y }}
-      animate={{ x: endPos.x, y: endPos.y }}
+      initial={{ left: startPos.x, top: startPos.y }}
+      animate={{ left: endPos.x, top: endPos.y }}
       transition={{ duration: 10, ease: "linear" }}
       onAnimationComplete={onComplete}
     />
