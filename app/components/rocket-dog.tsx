@@ -25,7 +25,7 @@ export default function CocoRocket({ onComplete }: CocoRocketProps) {
     <motion.img
       src="/cocotennis.png"
       alt="Rocket Dog"
-      className="fixed z-50 w-24 h-auto select-none pointer-events-none"
+      className="fixed z-50 w-72 h-auto select-none pointer-events-none"
       style={{ top: yPosition, left: -120 }}
       initial={{ x: -120 }}
       animate={{ x: viewportWidth + 120 }}

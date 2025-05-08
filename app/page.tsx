@@ -54,7 +54,7 @@ programmed in Los Angeles, California
 made from imported parts and inartificial intelligence`
 
     setTerminalText(aboutText)
-    setHeaderText(undefined)
+    setHeaderText("about.txt")
     setIsAboutMode(true)
 
     setTimeout(() => {
