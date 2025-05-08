@@ -45,6 +45,7 @@ export default function Home() {
   const handleIconHoverEnd = () => {
     if (!isAboutMode) {
       setTerminalText(getRandomQuote())
+      setHeaderText(undefined)
     }
   }
 
@@ -59,6 +60,7 @@ made from imported parts and inartificial intelligence`
 
     setTimeout(() => {
       setTerminalText(getRandomQuote())
+      setHeaderText(undefined)
       setIsAboutMode(false)
     }, 10000)
   }, [])
