@@ -3,7 +3,7 @@
 import { motion } from "framer-motion"
 import { Hand, Linkedin, Instagram, HandHeart, ClipboardList, BriefcaseMedical, Handshake, MessageCircleMore, Github, CuboidIcon as Cube } from "lucide-react"
 import XLogo from "./x-logo"
-import TikTokLogo from "./tiktok-logo"
+// import TikTokLogo from "./tiktok-logo" // temporarily disabled
 
 interface SocialIconsProps {
   onHover: (text: string) => void
@@ -59,12 +59,6 @@ export default function SocialIcons({ onHover, onHoverEnd }: SocialIconsProps) {
       href: "https://www.printables.com/@frog",
       label: "3D Printing",
       hoverText: "[printables]",
-    },
-    {
-      icon: TikTokLogo,
-      href: "https://www.tiktok.com/@hand",
-      label: "TikTok",
-      hoverText: "[tiktok]",
     },
     {
       icon: Github,
