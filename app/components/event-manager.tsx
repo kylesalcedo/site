@@ -4,8 +4,9 @@ import React, { useEffect, useRef, useState } from "react"
 import ErrorPopup from "./error-popup"
 import CocoRocket from "./rocket-dog"
 import { getRandomError } from "../data/errors"
+import FlyingPunk from "./flying-punk"
 
-export type EventId = "errorPopup" | "rocketDog"
+export type EventId = "errorPopup" | "rocketDog" | "flyingPunk"
 
 interface BaseEvent {
   id: EventId
@@ -15,6 +16,7 @@ interface BaseEvent {
 const availableEvents: BaseEvent[] = [
   { id: "errorPopup" },
   { id: "rocketDog" },
+  { id: "flyingPunk" },
 ]
 
 export default function EventManager() {
@@ -62,6 +64,10 @@ export default function EventManager() {
         // Completion handled via CocoRocket onComplete
         break
       }
+      case "flyingPunk": {
+        setActiveEvent("flyingPunk")
+        break
+      }
       default:
         break
     }
@@ -99,6 +105,12 @@ export default function EventManager() {
             scheduleNextEvent()
           }}
         />
+      )}
+      {activeEvent === "flyingPunk" && (
+        <FlyingPunk onComplete={() => {
+          setActiveEvent(null)
+          scheduleNextEvent()
+        }} />
       )}
     </>
   )
