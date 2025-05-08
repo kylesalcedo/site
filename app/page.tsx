@@ -43,9 +43,8 @@ export default function Home() {
   }
 
   const handleIconHoverEnd = () => {
-    if (!isAboutMode) {
+    if (!isAboutMode && headerText === undefined) {
       setTerminalText(getRandomQuote())
-      setHeaderText(undefined)
     }
   }
 
