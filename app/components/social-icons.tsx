@@ -88,7 +88,10 @@ export default function SocialIcons({ onHover, onHoverEnd }: SocialIconsProps) {
   ]
 
   return (
-    <div className="flex justify-center gap-4 px-4 flex-wrap">
+    <div
+      className="grid gap-4 px-4 justify-center"
+      style={{ gridTemplateColumns: "repeat(auto-fit, minmax(4rem, 1fr))" }}
+    >
       {icons.map((item, index) => (
         <motion.a
           key={index}
