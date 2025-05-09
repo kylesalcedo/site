@@ -176,12 +176,14 @@ export default function SocialIcons({ onHover, onHoverEnd }: SocialIconsProps) {
             className="flex items-center justify-center w-16 h-16 rounded-full bg-gray-500/70 text-white hover:bg-gray-400/70 transition-colors"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
+            animate={{ y: [0, -6, 0] }}
+            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
             onHoverStart={() => onHover(item.hoverText)}
             onHoverEnd={onHoverEnd}
             aria-label={item.label}
             initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1 }}
+            animate={{ opacity: 1, y: [20, 14, 20] }}
+            transition={{ delay: index * 0.1, duration: 6, repeat: Infinity, ease: "easeInOut" }}
           >
             <item.icon size={24} />
           </motion.a>
@@ -205,10 +207,10 @@ export default function SocialIcons({ onHover, onHoverEnd }: SocialIconsProps) {
           whileTap={{ scale: 0.95 }}
           onHoverStart={() => onHover(item.hoverText)}
           onHoverEnd={onHoverEnd}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: index * 0.05 }}
           aria-label={item.label}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1, y: [0, -6, 0] }}
+          transition={{ delay: index * 0.05, duration: 6, repeat: Infinity, ease: "easeInOut" }}
         >
           <item.icon size={24} />
         </motion.a>

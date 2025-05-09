@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useCallback, useEffect } from "react"
+import { useState, useCallback, useEffect, useRef } from "react"
 import NetworkBackground from "./components/network-background"
 import SocialIcons from "./components/social-icons"
 import PixelCharacter from "./components/pixel-character"
@@ -13,6 +13,9 @@ export default function Home() {
   const [isAboutMode, setIsAboutMode] = useState(false)
   const [userIp, setUserIp] = useState<string | null>(null)
   const [headerText, setHeaderText] = useState<string | undefined>(undefined)
+  const [isSticky, setIsSticky] = useState(false)
+  const stickyRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const stickyFlag = useRef(false)
 
   useEffect(() => {
     fetch('/api/ip')
@@ -36,57 +39,63 @@ export default function Home() {
 
   }, []);
 
+  const setStickyMessage = (msg: string, title: string) => {
+    if (stickyRef.current) clearTimeout(stickyRef.current)
+    setTerminalText(msg)
+    setHeaderText(title)
+    setIsSticky(true)
+    stickyFlag.current = true
+
+    stickyRef.current = setTimeout(() => {
+      setTerminalText(getRandomQuote())
+      setHeaderText(undefined)
+      setIsSticky(false)
+      stickyFlag.current = false
+    }, 10000)
+  }
+
   const handleIconHover = (text: string) => {
-    if (!isAboutMode) {
+    if (!stickyFlag.current) {
       setTerminalText(text)
     }
   }
 
   const handleIconHoverEnd = () => {
-    if (!isAboutMode && headerText === undefined) {
+    if (!stickyFlag.current) {
       setTerminalText(getRandomQuote())
+      setHeaderText(undefined)
     }
   }
 
-  const showAboutText = useCallback(() => {
-    const aboutText = `Full Stack Doctor of Physical Therapy
+  const aboutMessage = `Full Stack Doctor of Physical Therapy
 programmed in Los Angeles, California
 made from imported parts and inartificial intelligence`
 
-    setTerminalText(aboutText)
-    setHeaderText("about.txt")
+  const showAboutText = useCallback(() => {
+    setStickyMessage(aboutMessage, "about.txt")
     setIsAboutMode(true)
-
-    setTimeout(() => {
-      setTerminalText(getRandomQuote())
-      setHeaderText(undefined)
-      setIsAboutMode(false)
-    }, 10000)
   }, [])
 
-  const showBizText = useCallback(() => {
-    const bizText = "Always verify with at least 3 of the following:"
-    setTerminalText(bizText)
-    setHeaderText("biz.exe")
-    setIsAboutMode(false)
+  const bizText = "Always verify with at least 3 of the following:"
 
-    setTimeout(() => {
-      setTerminalText(getRandomQuote())
-      setHeaderText(undefined)
-    }, 10000)
+  const showBizText = useCallback(() => {
+    setStickyMessage(bizText, "biz.exe")
+    setIsAboutMode(false)
   }, [])
 
   const handleMenuHoverAbout = () => {
-    setTerminalText(`Full Stack Doctor of Physical Therapy
-programmed in Los Angeles, California
-made from imported parts and inartificial intelligence`)
-    setHeaderText("about.txt")
+    if (!stickyFlag.current) {
+      setTerminalText(aboutMessage)
+      setHeaderText("about.txt")
+    }
     setIsAboutMode(false)
   }
 
   const handleMenuHoverBiz = () => {
-    setTerminalText("Always verify with at least 3 of the following:")
-    setHeaderText("biz.exe")
+    if (!stickyFlag.current) {
+      setTerminalText(bizText)
+      setHeaderText("biz.exe")
+    }
     setIsAboutMode(false)
   }
 
