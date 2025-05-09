@@ -1,8 +1,9 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Hand, Linkedin, Instagram, HandHeart, ClipboardList, BriefcaseMedical, Handshake, MessageCircleMore, Github, CuboidIcon as Cube } from "lucide-react"
+import { Hand, Linkedin, Instagram, HandHeart, ClipboardList, BriefcaseMedical, Handshake, MessageCircleMore, Github, Youtube, CuboidIcon as Cube } from "lucide-react"
 import XLogo from "./x-logo"
+import TikTokLogo from "./tiktok-logo"
 // import TikTokLogo from "./tiktok-logo" // temporarily disabled
 
 interface SocialIconsProps {
@@ -61,10 +62,22 @@ export default function SocialIcons({ onHover, onHoverEnd }: SocialIconsProps) {
       hoverText: "[printables]",
     },
     {
+      icon: Youtube,
+      href: "https://www.youtube.com/@%C4%A7ands",
+      label: "YouTube",
+      hoverText: "[youtube]",
+    },
+    {
       icon: Github,
       href: "https://github.com/kylesalcedo",
       label: "GitHub",
       hoverText: "[github]",
+    },
+    {
+      icon: TikTokLogo,
+      href: "https://www.tiktok.com/@hand",
+      label: "TikTok",
+      hoverText: "[tiktok]",
     },
     {
       icon: Handshake,
