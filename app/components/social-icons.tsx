@@ -5,6 +5,7 @@ import { Hand, Linkedin, Instagram, HandHeart, ClipboardList, BriefcaseMedical, 
 import XLogo from "./x-logo"
 import TikTokLogo from "./tiktok-logo"
 // import TikTokLogo from "./tiktok-logo" // temporarily disabled
+import React from "react"
 
 interface SocialIconsProps {
   onHover: (text: string) => void
@@ -87,23 +88,86 @@ export default function SocialIcons({ onHover, onHoverEnd }: SocialIconsProps) {
     },
   ]
 
+  const [isDesktop, setIsDesktop] = React.useState(false)
+  const [positions, setPositions] = React.useState<{ x: number; y: number }[]>([])
+
+  // Determine screen size and compute positions for desktop
+  React.useEffect(() => {
+    const calc = () => {
+      const desktop = window.innerWidth >= 640 // Tailwind sm breakpoint
+      setIsDesktop(desktop)
+
+      if (desktop) {
+        const centerX = window.innerWidth / 2
+        const centerY = window.innerHeight / 2 - 80 // lift a bit above bottom area
+        const minR = 140
+        const maxR = 220
+
+        setPositions(
+          icons.map(() => {
+            const theta = Math.random() * Math.PI * 2
+            const r = Math.random() * (maxR - minR) + minR
+            return {
+              x: centerX + r * Math.cos(theta),
+              y: centerY + r * Math.sin(theta),
+            }
+          })
+        )
+      }
+    }
+
+    if (typeof window !== "undefined") {
+      calc()
+      window.addEventListener("resize", calc)
+      return () => window.removeEventListener("resize", calc)
+    }
+  }, [])
+
+  if (!isDesktop) {
+    return (
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 px-4 max-w-md mx-auto">
+        {icons.map((item, index) => (
+          <motion.a
+            key={index}
+            href={item.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center w-16 h-16 rounded-full bg-gray-500/70 text-white hover:bg-gray-400/70 transition-colors"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+            onHoverStart={() => onHover(item.hoverText)}
+            onHoverEnd={onHoverEnd}
+            aria-label={item.label}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.1 }}
+          >
+            <item.icon size={24} />
+          </motion.a>
+        ))}
+      </div>
+    )
+  }
+
+  // Desktop scattered layout
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 px-4 max-w-md mx-auto">
+    <div className="pointer-events-none fixed inset-0 z-30">
       {icons.map((item, index) => (
         <motion.a
           key={index}
           href={item.href}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center justify-center w-16 h-16 rounded-full bg-gray-500/70 text-white hover:bg-gray-400/70 transition-colors"
+          className="absolute flex items-center justify-center w-16 h-16 rounded-full bg-gray-500/70 text-white hover:bg-gray-400/70 transition-colors pointer-events-auto"
+          style={{ left: positions[index]?.x ?? 0 - 32, top: positions[index]?.y ?? 0 - 32 }}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
           onHoverStart={() => onHover(item.hoverText)}
           onHoverEnd={onHoverEnd}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: index * 0.05 }}
           aria-label={item.label}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: index * 0.1 }}
         >
           <item.icon size={24} />
         </motion.a>
