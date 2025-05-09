@@ -100,8 +100,8 @@ export default function SocialIcons({ onHover, onHoverEnd }: SocialIconsProps) {
       if (desktop) {
         const centerX = window.innerWidth / 2
         const centerY = window.innerHeight / 2 - 80 // lift a bit above bottom area
-        const minR = 140
-        const maxR = 220
+        const minR = 260
+        const maxR = Math.min(window.innerWidth, window.innerHeight) / 2 + 60
 
         setPositions(
           icons.map(() => {
