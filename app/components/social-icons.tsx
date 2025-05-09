@@ -91,35 +91,61 @@ export default function SocialIcons({ onHover, onHoverEnd }: SocialIconsProps) {
   const [isDesktop, setIsDesktop] = React.useState(false)
   const [positions, setPositions] = React.useState<{ x: number; y: number }[]>([])
 
-  // Determine screen size and compute positions for desktop
-  React.useEffect(() => {
-    const calc = () => {
-      const desktop = window.innerWidth >= 640 // Tailwind sm breakpoint
-      setIsDesktop(desktop)
+  let resizeTimer: ReturnType<typeof setTimeout>
 
-      if (desktop) {
-        const centerX = window.innerWidth / 2
-        const centerY = window.innerHeight / 2 - 80 // lift a bit above bottom area
-        const minR = 260
-        const maxR = Math.min(window.innerWidth, window.innerHeight) / 2 + 60
+  const calcPositions = () => {
+    const desktop = window.innerWidth >= 640 // Tailwind sm breakpoint
+    setIsDesktop(desktop)
 
-        setPositions(
-          icons.map(() => {
-            const theta = Math.random() * Math.PI * 2
-            const r = Math.random() * (maxR - minR) + minR
-            return {
-              x: centerX + r * Math.cos(theta),
-              y: centerY + r * Math.sin(theta),
-            }
-          })
-        )
-      }
+    if (desktop) {
+      const centerX = window.innerWidth / 2
+      const centerY = window.innerHeight / 2 - 80
+      const minR = 260
+      const maxR = Math.min(window.innerWidth, window.innerHeight) / 2 + 60
+      const margin = 40 // keep away from edges
+      const minDist = 110 // ~ icon diameter + gap
+
+      const pos: { x: number; y: number }[] = []
+
+      icons.forEach(() => {
+        let attempt = 0
+        while (attempt < 100) {
+          const theta = Math.random() * Math.PI * 2
+          const r = Math.random() * (maxR - minR) + minR
+          const x = centerX + r * Math.cos(theta)
+          const y = centerY + r * Math.sin(theta)
+
+          // Check margins
+          if (x < margin || x > window.innerWidth - margin || y < margin || y > window.innerHeight - margin) {
+            attempt++
+            continue
+          }
+
+          // Check overlap
+          if (pos.every(p => Math.hypot(p.x - x, p.y - y) >= minDist)) {
+            pos.push({ x, y })
+            break
+          }
+          attempt++
+        }
+        if (attempt >= 100) {
+          pos.push({ x: centerX, y: centerY }) // fallback
+        }
+      })
+
+      setPositions(pos)
     }
+  }
 
+  React.useEffect(() => {
     if (typeof window !== "undefined") {
-      calc()
-      window.addEventListener("resize", calc)
-      return () => window.removeEventListener("resize", calc)
+      calcPositions()
+      const handleResize = () => {
+        clearTimeout(resizeTimer)
+        resizeTimer = setTimeout(calcPositions, 150) // debounce 150ms
+      }
+      window.addEventListener("resize", handleResize)
+      return () => window.removeEventListener("resize", handleResize)
     }
   }, [])
 
@@ -159,7 +185,7 @@ export default function SocialIcons({ onHover, onHoverEnd }: SocialIconsProps) {
           target="_blank"
           rel="noopener noreferrer"
           className="absolute flex items-center justify-center w-16 h-16 rounded-full bg-gray-500/70 text-white hover:bg-gray-400/70 transition-colors pointer-events-auto"
-          style={{ left: positions[index]?.x ?? 0 - 32, top: positions[index]?.y ?? 0 - 32 }}
+          style={{ left: (positions[index]?.x ?? 0) - 32, top: (positions[index]?.y ?? 0) - 32 }}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
           onHoverStart={() => onHover(item.hoverText)}
