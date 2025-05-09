@@ -102,6 +102,10 @@ export default function SocialIcons({ onHover, onHoverEnd }: SocialIconsProps) {
       const centerY = window.innerHeight / 2 - 80
       const minR = 260
       const maxR = Math.min(window.innerWidth, window.innerHeight) / 2 + 60
+
+      const exclHalfW = 220 // exclusion rectangle half width
+      const exclHalfH = 180 // exclusion rectangle half height
+
       const margin = 40 // keep away from edges
       const minDist = 110 // ~ icon diameter + gap
 
@@ -121,7 +125,18 @@ export default function SocialIcons({ onHover, onHoverEnd }: SocialIconsProps) {
             continue
           }
 
-          // Check overlap
+          // Avoid overlapping central character + terminal bounding box
+          if (
+            x > centerX - exclHalfW &&
+            x < centerX + exclHalfW &&
+            y > centerY - exclHalfH &&
+            y < centerY + exclHalfH
+          ) {
+            attempt++
+            continue
+          }
+
+          // Check overlap with existing icons
           if (pos.every(p => Math.hypot(p.x - x, p.y - y) >= minDist)) {
             pos.push({ x, y })
             break
