@@ -88,128 +88,34 @@ export default function SocialIcons({ onHover, onHoverEnd }: SocialIconsProps) {
     },
   ]
 
-  const [isDesktop, setIsDesktop] = React.useState(false)
-  const [positions, setPositions] = React.useState<{ x: number; y: number }[]>([])
-  const [hasPositions, setHasPositions] = React.useState(false)
+  // Arrange icons into rows: 4-4-3
+  const rows = [
+    icons.slice(0, 4),
+    icons.slice(4, 8),
+    icons.slice(8, 11),
+  ]
 
-  let resizeTimer: ReturnType<typeof setTimeout>
-
-  const calcPositions = () => {
-    const desktop = window.innerWidth >= 640 // Tailwind sm breakpoint
-    setIsDesktop(desktop)
-
-    if (desktop) {
-      const centerX = window.innerWidth / 2
-      const centerY = window.innerHeight / 2 - 80
-      const minR = 260
-      const maxR = Math.min(window.innerWidth, window.innerHeight) / 2 + 60
-
-      // Use a circular exclusion zone in the center
-      const exclusionRadius = 320 // px, generous radius to avoid terminal and center
-
-      const margin = 40 // keep away from edges
-      const minDist = 110 // ~ icon diameter + gap
-
-      const pos: { x: number; y: number }[] = []
-
-      icons.forEach(() => {
-        let attempt = 0
-        while (attempt < 200) { // allow more attempts for better spread
-          const theta = Math.random() * Math.PI * 2
-          const r = Math.random() * (maxR - minR) + minR
-          const x = centerX + r * Math.cos(theta)
-          const y = centerY + r * Math.sin(theta)
-
-          // Check margins
-          if (x < margin || x > window.innerWidth - margin || y < margin || y > window.innerHeight - margin) {
-            attempt++
-            continue
-          }
-
-          // Avoid circular exclusion zone in the center
-          if (Math.hypot(x - centerX, y - centerY) < exclusionRadius) {
-            attempt++
-            continue
-          }
-
-          // Check overlap with existing icons
-          if (pos.every(p => Math.hypot(p.x - x, p.y - y) >= minDist)) {
-            pos.push({ x, y })
-            break
-          }
-          attempt++
-        }
-        if (attempt >= 200) {
-          // fallback: place at edge of exclusion zone
-          const angle = Math.random() * Math.PI * 2
-          pos.push({ x: centerX + Math.cos(angle) * (exclusionRadius + minDist), y: centerY + Math.sin(angle) * (exclusionRadius + minDist) })
-        }
-      })
-
-      setPositions(pos)
-      setHasPositions(true)
-    }
-  }
-
-  React.useEffect(() => {
-    if (typeof window !== "undefined") {
-      calcPositions()
-      const handleResize = () => {
-        clearTimeout(resizeTimer)
-        resizeTimer = setTimeout(calcPositions, 150) // debounce 150ms
-      }
-      window.addEventListener("resize", handleResize)
-      return () => window.removeEventListener("resize", handleResize)
-    }
-  }, [])
-
-  // Always render icons, fallback to grid if positions not ready
-  if (!isDesktop || !hasPositions) {
-    return (
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 px-4 max-w-md mx-auto">
-        {icons.map((item, index) => (
-          <motion.a
-            key={index}
-            href={item.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center w-16 h-16 rounded-full bg-gray-500/70 text-white hover:bg-gray-400/70 transition-colors"
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
-            animate={{ y: [0, -6, 0] }}
-            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-            onHoverStart={() => onHover(item.hoverText)}
-            onHoverEnd={onHoverEnd}
-            aria-label={item.label}
-          >
-            <item.icon size={24} />
-          </motion.a>
-        ))}
-      </div>
-    )
-  }
-
-  // Desktop scattered layout
   return (
-    <div className="pointer-events-none fixed inset-0 z-30">
-      {icons.map((item, index) => (
-        <motion.a
-          key={index}
-          href={item.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="absolute flex items-center justify-center w-16 h-16 rounded-full bg-gray-500/70 text-white hover:bg-gray-400/70 transition-colors pointer-events-auto"
-          style={{ left: (positions[index]?.x ?? 0) - 32, top: (positions[index]?.y ?? 0) - 32 }}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.95 }}
-          onHoverStart={() => onHover(item.hoverText)}
-          onHoverEnd={onHoverEnd}
-          aria-label={item.label}
-          animate={{ y: [0, -6, 0] }}
-          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-        >
-          <item.icon size={24} />
-        </motion.a>
+    <div className="flex flex-col items-center space-y-4">
+      {rows.map((row, rowIndex) => (
+        <div key={rowIndex} className="flex flex-row justify-center space-x-4">
+          {row.map((item, index) => (
+            <motion.a
+              key={item.label}
+              href={item.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center w-16 h-16 rounded-full bg-gray-500/70 text-white hover:bg-gray-400/70 transition-colors"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              onHoverStart={() => onHover(item.hoverText)}
+              onHoverEnd={onHoverEnd}
+              aria-label={item.label}
+            >
+              <item.icon size={24} />
+            </motion.a>
+          ))}
+        </div>
       ))}
     </div>
   )
