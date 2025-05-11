@@ -104,9 +104,8 @@ export default function SocialIcons({ onHover, onHoverEnd }: SocialIconsProps) {
       const minR = 260
       const maxR = Math.min(window.innerWidth, window.innerHeight) / 2 + 60
 
-      // INCREASE exclusion rectangle to avoid terminal
-      const exclHalfW = 270 // exclusion rectangle half width (was 220)
-      const exclHalfH = 220 // exclusion rectangle half height (was 180)
+      // Use a circular exclusion zone in the center
+      const exclusionRadius = 320 // px, generous radius to avoid terminal and center
 
       const margin = 40 // keep away from edges
       const minDist = 110 // ~ icon diameter + gap
@@ -127,13 +126,8 @@ export default function SocialIcons({ onHover, onHoverEnd }: SocialIconsProps) {
             continue
           }
 
-          // Avoid overlapping central character + terminal bounding box
-          if (
-            x > centerX - exclHalfW &&
-            x < centerX + exclHalfW &&
-            y > centerY - exclHalfH &&
-            y < centerY + exclHalfH
-          ) {
+          // Avoid circular exclusion zone in the center
+          if (Math.hypot(x - centerX, y - centerY) < exclusionRadius) {
             attempt++
             continue
           }
@@ -147,7 +141,8 @@ export default function SocialIcons({ onHover, onHoverEnd }: SocialIconsProps) {
         }
         if (attempt >= 200) {
           // fallback: place at edge of exclusion zone
-          pos.push({ x: centerX + exclHalfW + minDist, y: centerY + exclHalfH + minDist })
+          const angle = Math.random() * Math.PI * 2
+          pos.push({ x: centerX + Math.cos(angle) * (exclusionRadius + minDist), y: centerY + Math.sin(angle) * (exclusionRadius + minDist) })
         }
       })
 
