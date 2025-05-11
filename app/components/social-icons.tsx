@@ -90,6 +90,7 @@ export default function SocialIcons({ onHover, onHoverEnd }: SocialIconsProps) {
 
   const [isDesktop, setIsDesktop] = React.useState(false)
   const [positions, setPositions] = React.useState<{ x: number; y: number }[]>([])
+  const [hasPositions, setHasPositions] = React.useState(false)
 
   let resizeTimer: ReturnType<typeof setTimeout>
 
@@ -103,8 +104,9 @@ export default function SocialIcons({ onHover, onHoverEnd }: SocialIconsProps) {
       const minR = 260
       const maxR = Math.min(window.innerWidth, window.innerHeight) / 2 + 60
 
-      const exclHalfW = 220 // exclusion rectangle half width
-      const exclHalfH = 180 // exclusion rectangle half height
+      // INCREASE exclusion rectangle to avoid terminal
+      const exclHalfW = 270 // exclusion rectangle half width (was 220)
+      const exclHalfH = 220 // exclusion rectangle half height (was 180)
 
       const margin = 40 // keep away from edges
       const minDist = 110 // ~ icon diameter + gap
@@ -113,7 +115,7 @@ export default function SocialIcons({ onHover, onHoverEnd }: SocialIconsProps) {
 
       icons.forEach(() => {
         let attempt = 0
-        while (attempt < 100) {
+        while (attempt < 200) { // allow more attempts for better spread
           const theta = Math.random() * Math.PI * 2
           const r = Math.random() * (maxR - minR) + minR
           const x = centerX + r * Math.cos(theta)
@@ -143,12 +145,14 @@ export default function SocialIcons({ onHover, onHoverEnd }: SocialIconsProps) {
           }
           attempt++
         }
-        if (attempt >= 100) {
-          pos.push({ x: centerX, y: centerY }) // fallback
+        if (attempt >= 200) {
+          // fallback: place at edge of exclusion zone
+          pos.push({ x: centerX + exclHalfW + minDist, y: centerY + exclHalfH + minDist })
         }
       })
 
       setPositions(pos)
+      setHasPositions(true)
     }
   }
 
@@ -164,7 +168,8 @@ export default function SocialIcons({ onHover, onHoverEnd }: SocialIconsProps) {
     }
   }, [])
 
-  if (!isDesktop) {
+  // Always render icons, fallback to grid if positions not ready
+  if (!isDesktop || !hasPositions) {
     return (
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 px-4 max-w-md mx-auto">
         {icons.map((item, index) => (
@@ -183,7 +188,7 @@ export default function SocialIcons({ onHover, onHoverEnd }: SocialIconsProps) {
             aria-label={item.label}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: [20, 14, 20] }}
-            transition={{ delay: index * 0.1, duration: 6, repeat: Infinity, ease: "easeInOut" }}
+            transition={{ delay: index * 0.1, duration: 0.6, repeat: Infinity, ease: "easeInOut" }} // FADE-IN FASTER
           >
             <item.icon size={24} />
           </motion.a>
@@ -210,7 +215,7 @@ export default function SocialIcons({ onHover, onHoverEnd }: SocialIconsProps) {
           aria-label={item.label}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1, y: [0, -6, 0] }}
-          transition={{ delay: index * 0.05, duration: 6, repeat: Infinity, ease: "easeInOut" }}
+          transition={{ delay: index * 0.05, duration: 0.6, repeat: Infinity, ease: "easeInOut" }} // FADE-IN FASTER
         >
           <item.icon size={24} />
         </motion.a>
