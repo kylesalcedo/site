@@ -186,9 +186,6 @@ export default function SocialIcons({ onHover, onHoverEnd }: SocialIconsProps) {
             onHoverStart={() => onHover(item.hoverText)}
             onHoverEnd={onHoverEnd}
             aria-label={item.label}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: [20, 14, 20] }}
-            transition={{ delay: index * 0.1, duration: 0.6, repeat: Infinity, ease: "easeInOut" }} // FADE-IN FASTER
           >
             <item.icon size={24} />
           </motion.a>
@@ -213,9 +210,8 @@ export default function SocialIcons({ onHover, onHoverEnd }: SocialIconsProps) {
           onHoverStart={() => onHover(item.hoverText)}
           onHoverEnd={onHoverEnd}
           aria-label={item.label}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1, y: [0, -6, 0] }}
-          transition={{ delay: index * 0.05, duration: 0.6, repeat: Infinity, ease: "easeInOut" }} // FADE-IN FASTER
+          animate={{ y: [0, -6, 0] }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
         >
           <item.icon size={24} />
         </motion.a>
