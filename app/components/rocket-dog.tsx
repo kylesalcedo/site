@@ -14,9 +14,20 @@ export default function CocoRocket({ onComplete }: CocoRocketProps) {
   useEffect(() => {
     if (typeof window !== "undefined") {
       setViewportWidth(window.innerWidth)
-      // Pick a random y between 20 and viewport height - 100
-      const maxY = window.innerHeight - 100
-      setYPosition(Math.max(20, Math.floor(Math.random() * maxY)))
+      const imageHeight = 200 // Estimated height of the image at w-72
+      const topBuffer = 100
+      const bottomBuffer = 100
+      
+      // Ensure yPosition allows full image visibility
+      const minY = topBuffer
+      const maxY = window.innerHeight - imageHeight - bottomBuffer
+      
+      // If viewport is too small, default to a centered position
+      if (minY >= maxY) {
+        setYPosition(window.innerHeight / 2 - imageHeight / 2)
+      } else {
+        setYPosition(Math.floor(Math.random() * (maxY - minY + 1)) + minY)
+      }
     }
   }, [])
 

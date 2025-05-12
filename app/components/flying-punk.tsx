@@ -19,13 +19,23 @@ export default function FlyingPunk({ onComplete }: FlyingPunkProps) {
       const h = window.innerHeight
       setViewport({ w, h })
 
-      // Choose a baselineY so that end Y stays within viewport bounds
-      const baselineMin = 50
-      const baselineMax = h - 150 // leave some padding
-      const baselineY = Math.max(baselineMin, Math.floor(Math.random() * baselineMax))
+      const imageHeight = 150 // Estimated height of the image at w-60
+      const bottomScreenBuffer = 50 // Keep some space from the absolute bottom
+
+      // Start punk in the bottom half of the screen
+      const minY = h / 2
+      const maxY = h - imageHeight - bottomScreenBuffer
+      
+      let baselineY;
+      // If viewport is too small for the desired range, place it at the bottom with buffer
+      if (minY >= maxY) {
+        baselineY = h - imageHeight - bottomScreenBuffer
+      } else {
+        baselineY = Math.floor(Math.random() * (maxY - minY + 1)) + minY
+      }
 
       setStartPos({ x: -200, y: baselineY })
-      setEndPos({ x: w + 200, y: baselineY - 0.29 * w })
+      setEndPos({ x: w + 200, y: baselineY - 0.29 * (w + 400) }) // Adjust end Y based on full travel distance
     }
   }, [])
 
