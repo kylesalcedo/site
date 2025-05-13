@@ -88,11 +88,11 @@ export default function SocialIcons({ onHover, onHoverEnd }: SocialIconsProps) {
     },
   ]
 
-  // Arrange icons into rows: 4-4-3
+  // Arrange icons into rows: 4-4-4
   const rows = [
     icons.slice(0, 4),
     icons.slice(4, 8),
-    icons.slice(8, 11),
+    icons.slice(8, 12),
   ]
 
   return (
