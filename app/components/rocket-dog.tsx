@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react"
 import { motion } from "framer-motion"
+import Link from "next/link"
 
 interface CocoRocketProps {
   onComplete: () => void
@@ -33,15 +34,17 @@ export default function CocoRocket({ onComplete }: CocoRocketProps) {
 
   // Width of image assumed 100px; start -120; end viewportWidth + 120
   return (
-    <motion.img
-      src="/cocotennis.png"
-      alt="Rocket Dog"
-      className="fixed z-50 w-72 h-auto select-none pointer-events-none"
-      style={{ top: yPosition, left: -120 }}
-      initial={{ x: -120 }}
-      animate={{ x: viewportWidth + 120 }}
-      transition={{ duration: 8, ease: "linear" }}
-      onAnimationComplete={onComplete}
-    />
+    <Link href="/coco" passHref>
+      <motion.img
+        src="/cocotennis.png"
+        alt="Rocket Dog"
+        className="fixed z-50 w-72 h-auto select-none cursor-pointer"
+        style={{ top: yPosition, left: -120 }}
+        initial={{ x: -120 }}
+        animate={{ x: viewportWidth + 120 }}
+        transition={{ duration: 8, ease: "linear" }}
+        onAnimationComplete={onComplete}
+      />
+    </Link>
   )
 } 
