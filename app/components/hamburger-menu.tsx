@@ -37,10 +37,17 @@ export default function HamburgerMenu({ onAboutClick, onHoverAbout, onHoverBiz, 
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
+            exit={{ opacity: 0, y: -20, transition: { duration: 0.2 } }}
             className="absolute top-16 right-0 bg-gray-800 rounded-lg shadow-lg p-4 w-48"
           >
-            <nav>
+            <motion.nav
+              initial={false}
+              animate={isOpen ? "open" : "closed"}
+              variants={{
+                open: { pointerEvents: "auto" },
+                closed: { pointerEvents: "none" }
+              }}
+            >
               <ul className="space-y-2">
                 <li>
                   <button
@@ -63,7 +70,7 @@ export default function HamburgerMenu({ onAboutClick, onHoverAbout, onHoverBiz, 
                   </button>
                 </li>
               </ul>
-            </nav>
+            </motion.nav>
           </motion.div>
         )}
       </AnimatePresence>
