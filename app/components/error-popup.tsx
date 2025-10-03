@@ -10,7 +10,7 @@ interface ErrorPopupProps {
   onClose: () => void
 }
 
-export default function ErrorPopup({ errorMessage, position, onClose }: ErrorPopupProps) {
+export default function ErrorPopup({ errorMessage = "", position = { x: 0, y: 0 }, onClose = () => {} }: Partial<ErrorPopupProps>) {
   return (
     <div>
       <div
