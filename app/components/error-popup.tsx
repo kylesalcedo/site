@@ -1,7 +1,7 @@
 "use client"
 
 import React from "react"
-import { motion, AnimatePresence } from "framer-motion"
+// import { motion, AnimatePresence } from "framer-motion"
 import { X } from "lucide-react"
 
 interface ErrorPopupProps {
@@ -12,14 +12,10 @@ interface ErrorPopupProps {
 
 export default function ErrorPopup({ errorMessage, position, onClose }: ErrorPopupProps) {
   return (
-    <AnimatePresence>
-      <motion.div
+    <div>
+      <div
         className="fixed z-50 bg-white rounded-md shadow-lg w-80 overflow-hidden"
-        style={{ left: position.x, top: position.y }}
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.8 }}
-        transition={{ type: "spring", damping: 20 }}
+        style={{ left: position.x, top: position.y }} // Use position directly for static positioning
       >
         <div className="bg-blue-600 text-white px-4 py-2 flex items-center justify-between">
           <div className="flex items-center">
@@ -55,7 +51,7 @@ export default function ErrorPopup({ errorMessage, position, onClose }: ErrorPop
             </div>
           </div>
         </div>
-      </motion.div>
-    </AnimatePresence>
+      </div>
+    </div>
   )
 }

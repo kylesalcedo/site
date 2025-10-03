@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useEffect, useState } from "react"
-import { motion } from "framer-motion"
+// import { motion } from "framer-motion"
 import Link from "next/link"
 
 interface CocoRocketProps {
@@ -35,15 +35,12 @@ export default function CocoRocket({ onComplete }: CocoRocketProps) {
   // Width of image assumed 100px; start -120; end viewportWidth + 120
   return (
     <Link href="/coco" passHref>
-      <motion.img
+      <img
         src="/cocotennis.png"
         alt="Rocket Dog"
         className="fixed z-50 w-72 h-auto select-none cursor-pointer"
         style={{ top: yPosition, left: -120 }}
-        initial={{ x: -120 }}
-        animate={{ x: viewportWidth + 120 }}
-        transition={{ duration: 8, ease: "linear" }}
-        onAnimationComplete={onComplete}
+        onLoad={onComplete}
       />
     </Link>
   )

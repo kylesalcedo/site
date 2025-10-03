@@ -1,6 +1,5 @@
 "use client"
 
-import { motion } from "framer-motion"
 import Image from "next/image"
 
 // Animation states and their corresponding GIFs
@@ -26,15 +25,7 @@ export default function PixelCharacter({ currentAnimation = "idle" }: { currentA
 
   return (
     <div className="relative">
-      <motion.div
-        animate={{
-          y: [0, -10, 0],
-        }}
-        transition={{
-          repeat: Number.POSITIVE_INFINITY,
-          duration: 2,
-          ease: "easeInOut",
-        }}
+      <div
       >
         <Image
           src={animations[animation] || "/placeholder.svg"}
@@ -47,20 +38,11 @@ export default function PixelCharacter({ currentAnimation = "idle" }: { currentA
           }}
           priority
         />
-      </motion.div>
+      </div>
 
       {/* Shadow effect */}
-      <motion.div
+      <div
         className="w-16 h-2 bg-black/20 rounded-full mx-auto -mt-2"
-        animate={{
-          width: [64, 56, 64],
-          opacity: [0.2, 0.15, 0.2],
-        }}
-        transition={{
-          repeat: Number.POSITIVE_INFINITY,
-          duration: 2,
-          ease: "easeInOut",
-        }}
       />
     </div>
   )
