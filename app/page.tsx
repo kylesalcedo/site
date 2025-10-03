@@ -7,6 +7,8 @@ import PixelCharacter from "./components/pixel-character"
 import Terminal from "./components/terminal"
 import HamburgerMenu from "./components/hamburger-menu"
 import { getRandomQuote, quotes } from "./data/quotes"
+import CocoRocket from "./components/rocket-dog"
+import ErrorPopup from "./components/error-popup"
 
 export default function Home() {
   const [terminalText, setTerminalText] = useState<string | undefined>(undefined)
@@ -16,6 +18,7 @@ export default function Home() {
   const [isSticky, setIsSticky] = useState(false)
   const stickyRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const stickyFlag = useRef(false)
+  const [showRocket, setShowRocket] = useState(true)
 
   useEffect(() => {
     fetch('/api/ip')
@@ -102,6 +105,12 @@ made from imported parts and inartificial intelligence`
   return (
     <main className="relative flex min-h-screen flex-col items-center justify-between overflow-hidden bg-[#1a4b6d]">
       <NetworkBackground />
+
+      {showRocket && (
+        <CocoRocket onComplete={() => setShowRocket(false)} />
+      )}
+
+      <ErrorPopup />
 
       <HamburgerMenu
         onAboutClick={showAboutText}
