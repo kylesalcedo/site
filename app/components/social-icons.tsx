@@ -1,11 +1,9 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Hand, Linkedin, Instagram, HandHeart, ClipboardList, BriefcaseMedical, Handshake, MessageCircleMore, Github, Youtube, CuboidIcon as Cube, Puzzle, Music, Gamepad2 } from "lucide-react"
-import { XLogo } from "./x-logo"
+import { Hand, Linkedin, Instagram, HandHeart, ClipboardList, BriefcaseMedical, Handshake, MessageCircleMore, Github, CuboidIcon as Cube } from "lucide-react"
+import XLogo from "./x-logo"
 import TikTokLogo from "./tiktok-logo"
-// import TikTokLogo from "./tiktok-logo" // temporarily disabled
-import React from "react"
 
 interface SocialIconsProps {
   onHover: (text: string) => void
@@ -63,10 +61,10 @@ export default function SocialIcons({ onHover, onHoverEnd }: SocialIconsProps) {
       hoverText: "[printables]",
     },
     {
-      icon: Youtube,
-      href: "https://www.youtube.com/@%C4%A7ands",
-      label: "YouTube",
-      hoverText: "[youtube]",
+      icon: TikTokLogo,
+      href: "https://www.tiktok.com/@hand",
+      label: "TikTok",
+      hoverText: "[tiktok]",
     },
     {
       icon: Github,
@@ -75,65 +73,33 @@ export default function SocialIcons({ onHover, onHoverEnd }: SocialIconsProps) {
       hoverText: "[github]",
     },
     {
-      icon: TikTokLogo,
-      href: "https://www.tiktok.com/@hand",
-      label: "TikTok",
-      hoverText: "[tiktok]",
-    },
-    {
       icon: Handshake,
       href: "https://www.homehands.lol/",
       label: "HomeHands",
       hoverText: "[homehands]",
     },
-    {
-      icon: Puzzle,
-      href: "https://www.chess.com/member/hand",
-      label: "Chess.com",
-      hoverText: "[chess]",
-    },
-    {
-      icon: Music,
-      href: "https://open.spotify.com/user/kylesalcedo",
-      label: "Spotify",
-      hoverText: "[spotify]",
-    },
-    {
-      icon: Gamepad2,
-      href: "https://steamcommunity.com/id/0hms",
-      label: "Steam",
-      hoverText: "[steam]",
-    },
-  ]
-
-  // Arrange icons into rows: 5-5-5
-  const rows = [
-    icons.slice(0, 5),
-    icons.slice(5, 10),
-    icons.slice(10, 15),
   ]
 
   return (
-    <div className="flex flex-col items-center space-y-4">
-      {rows.map((row, rowIndex) => (
-        <div key={rowIndex} className="flex flex-row justify-center space-x-4">
-          {row.map((item, index) => (
-            <motion.a
-              key={item.label}
-              href={item.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center w-16 h-16 rounded-full bg-gray-500/70 text-white hover:bg-gray-400/70 transition-colors"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              onHoverStart={() => onHover(item.hoverText)}
-              onHoverEnd={onHoverEnd}
-              aria-label={item.label}
-            >
-              <item.icon size={24} />
-            </motion.a>
-          ))}
-        </div>
+    <div className="flex justify-center gap-4 px-4 flex-wrap">
+      {icons.map((item, index) => (
+        <motion.a
+          key={index}
+          href={item.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center justify-center w-16 h-16 rounded-full bg-gray-500/70 text-white hover:bg-gray-400/70 transition-colors"
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.95 }}
+          onHoverStart={() => onHover(item.hoverText)}
+          onHoverEnd={onHoverEnd}
+          aria-label={item.label}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: index * 0.1 }}
+        >
+          <item.icon size={24} />
+        </motion.a>
       ))}
     </div>
   )

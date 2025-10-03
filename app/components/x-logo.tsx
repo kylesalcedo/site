@@ -9,4 +9,4 @@ const XLogo: React.FC<{ size?: number }> = ({ size = 24 }) => (
   </svg>
 )
 
-export { XLogo }
+export default XLogo
