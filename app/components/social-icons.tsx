@@ -4,8 +4,10 @@ import { motion } from "framer-motion"
 import { Hand, Linkedin, Instagram, HandHeart, ClipboardList, BriefcaseMedical, Handshake, MessageCircleMore, Github, Youtube, CuboidIcon as Cube } from "lucide-react"
 import XLogo from "./x-logo"
 import TikTokLogo from "./tiktok-logo"
+import ChessLogo from "./ChessLogo"
+import SpotifyLogo from "./SpotifyLogo"
+import SteamLogo from "./SteamLogo"
 // import TikTokLogo from "./tiktok-logo" // temporarily disabled
-import React from "react"
 
 interface SocialIconsProps {
   onHover: (text: string) => void
@@ -86,13 +88,31 @@ export default function SocialIcons({ onHover, onHoverEnd }: SocialIconsProps) {
       label: "HomeHands",
       hoverText: "[homehands]",
     },
+    {
+      icon: ChessLogo,
+      href: "https://www.chess.com/member/hand",
+      label: "Chess.com",
+      hoverText: "[chess]",
+    },
+    {
+      icon: SpotifyLogo,
+      href: "https://open.spotify.com/user/kylesalcedo?si=808d23e10b764fcf",
+      label: "Spotify",
+      hoverText: "[spotify]",
+    },
+    {
+      icon: SteamLogo,
+      href: "https://steamcommunity.com/id/0hms/",
+      label: "Steam",
+      hoverText: "[steam]",
+    },
   ]
 
-  // Arrange icons into rows: 4-4-4
+  // Arrange icons into rows: 5-5-5
   const rows = [
-    icons.slice(0, 4),
-    icons.slice(4, 8),
-    icons.slice(8, 12),
+    icons.slice(0, 5),
+    icons.slice(5, 10),
+    icons.slice(10, 15),
   ]
 
   return (

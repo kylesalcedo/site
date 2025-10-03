@@ -54,7 +54,7 @@ export default function HamburgerMenu({ onAboutClick, onHoverAbout, onHoverBiz, 
                     onClick={handleAboutClick}
                     onMouseEnter={onHoverAbout}
                     onMouseLeave={onHoverEnd}
-                    className="text-white hover:text-gray-300 block w-full text-left"
+                    className="text-white hover:text-gray-300 active:text-white block w-full text-left"
                   >
                     About
                   </button>
@@ -64,7 +64,7 @@ export default function HamburgerMenu({ onAboutClick, onHoverAbout, onHoverBiz, 
                     onClick={() => { onBizClick(); setIsOpen(false) }}
                     onMouseEnter={onHoverBiz}
                     onMouseLeave={onHoverEnd}
-                    className="text-white hover:text-gray-300 block w-full text-left"
+                    className="text-white hover:text-gray-300 active:text-white block w-full text-left"
                   >
                     $$$
                   </button>
