@@ -30,7 +30,7 @@ export default function CocoRocket({ onComplete }: CocoRocketProps) {
 
       const startX = -200
       const endX = window.innerWidth + 200
-      const durationMs = 6000
+      const durationMs = 10000
       let startTime: number | null = null
 
       const step = (timestamp: number) => {
