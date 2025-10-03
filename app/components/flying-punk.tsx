@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useEffect, useState } from "react"
-import { motion } from "framer-motion"
+// import { motion } from "framer-motion"
 
 interface FlyingPunkProps {
   onComplete: () => void
@@ -40,14 +40,12 @@ export default function FlyingPunk({ onComplete }: FlyingPunkProps) {
   }, [])
 
   return (
-    <motion.img
+    <img
       src="/flyingpunk.png"
       alt="Flying Punk"
       className="fixed z-50 w-60 h-auto select-none pointer-events-none"
-      initial={{ left: startPos.x, top: startPos.y }}
-      animate={{ left: endPos.x, top: endPos.y }}
-      transition={{ duration: 10, ease: "linear" }}
-      onAnimationComplete={onComplete}
+      style={{ left: startPos.x, top: startPos.y }}
+      onLoad={onComplete} 
     />
   )
 } 

@@ -1,6 +1,6 @@
 "use client"
 
-import { motion, AnimatePresence } from "framer-motion"
+// import { motion, AnimatePresence } from "framer-motion"
 import { X } from "lucide-react"
 import { useRouter } from "next/navigation"
 
@@ -11,58 +11,34 @@ interface AboutModalProps {
 
 export default function AboutModal({ isOpen, onClose }: AboutModalProps) {
   const router = useRouter()
-
-  const handleClose = () => {
-    onClose()
-    setTimeout(() => {
-      router.push("/")
-    }, 300)
-  }
+  
+  if (!isOpen) return null
 
   return (
-    <AnimatePresence>
-      {isOpen && (
-        <>
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 0.7 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
-            onClick={handleClose}
-          />
-          <motion.div
-            initial={{ opacity: 0, y: 50, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 50, scale: 0.95 }}
-            transition={{ type: "spring", damping: 20 }}
-            className="fixed inset-x-4 top-1/2 -translate-y-1/2 max-w-2xl mx-auto bg-[#1a4b6d]/90 backdrop-blur-md p-8 rounded-xl shadow-2xl z-50 border border-white/10"
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+      <div
+        className="relative bg-gray-800 rounded-lg shadow-xl p-6 w-11/12 max-w-md border border-gray-700 text-white"
+      >
+        <button
+          onClick={onClose}
+          className="absolute top-3 right-3 p-2 rounded-full bg-gray-700 hover:bg-gray-600 transition-colors"
+          aria-label="Close about modal"
+        >
+          <X size={20} />
+        </button>
+        <h2 className="text-2xl font-bold mb-4">About</h2>
+        <p className="mb-2">Full Stack Doctor of Physical Therapy</p>
+        <p className="mb-2">Programmed in Los Angeles, California</p>
+        <p className="mb-4">Made from imported parts and inartificial intelligence</p>
+        <div className="flex justify-end">
+          <button
+            onClick={onClose}
+            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
           >
-            <button
-              onClick={handleClose}
-              className="absolute top-4 right-4 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
-              aria-label="Close"
-            >
-              <X size={20} />
-            </button>
-
-            <div className="text-center">
-              <h1 className="text-4xl font-bold mb-8 tracking-tight">About Me</h1>
-
-              <div className="space-y-6">
-                <p className="text-2xl">
-                  name is <span className="font-bold">Kyle Salcedo</span>
-                </p>
-
-                <p className="text-xl">a Doctor of Physical Therapy molded by other godly clinicians</p>
-
-                <p className="text-xl">assembled in Los Angeles, California</p>
-
-                <p className="text-xl">made from imported parts and inartificial intelligence</p>
-              </div>
-            </div>
-          </motion.div>
-        </>
-      )}
-    </AnimatePresence>
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
   )
 }
