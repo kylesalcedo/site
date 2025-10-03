@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion"
 import { Hand, Linkedin, Instagram, HandHeart, ClipboardList, BriefcaseMedical, Handshake, MessageCircleMore, Github, Youtube, CuboidIcon as Cube, Music } from "lucide-react"
-import XLogo from "./x-logo"
+import { XLogo } from "./x-logo"
 import TikTokLogo from "./tiktok-logo"
 // import TikTokLogo from "./tiktok-logo" // temporarily disabled
 import React from "react"
