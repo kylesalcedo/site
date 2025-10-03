@@ -104,7 +104,7 @@ made from imported parts and inartificial intelligence`
     <main className="relative flex min-h-screen flex-col items-center justify-between overflow-hidden bg-[#1a4b6d]">
       <NetworkBackground />
 
-      <EventManager />
+      {/* Events are handled globally in RootLayout */}
 
       <HamburgerMenu
         onAboutClick={showAboutText}
