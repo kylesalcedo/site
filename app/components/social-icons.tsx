@@ -86,31 +86,31 @@ export default function SocialIcons({ onHover, onHoverEnd }: SocialIconsProps) {
       label: "HomeHands",
       hoverText: "[homehands]",
     },
-    {
-      icon: Puzzle,
-      href: "https://www.chess.com/member/hand",
-      label: "Chess.com",
-      hoverText: "[chess]",
-    },
-    {
-      icon: Music,
-      href: "https://open.spotify.com/user/kylesalcedo",
-      label: "Spotify",
-      hoverText: "[spotify]",
-    },
-    {
-      icon: Gamepad2,
-      href: "https://steamcommunity.com/id/0hms",
-      label: "Steam",
-      hoverText: "[steam]",
-    },
+    // {
+    //   icon: Puzzle,
+    //   href: "https://www.chess.com/member/hand",
+    //   label: "Chess.com",
+    //   hoverText: "[chess]",
+    // },
+    // {
+    //   icon: Music,
+    //   href: "https://open.spotify.com/user/kylesalcedo",
+    //   label: "Spotify",
+    //   hoverText: "[spotify]",
+    // },
+    // {
+    //   icon: Gamepad2,
+    //   href: "https://steamcommunity.com/id/0hms",
+    //   label: "Steam",
+    //   hoverText: "[steam]",
+    // },
   ]
 
-  // Arrange icons into rows: 5-5-5
+  // Arrange icons into rows: 4-4-4
   const rows = [
-    icons.slice(0, 5),
-    icons.slice(5, 10),
-    icons.slice(10, 15),
+    icons.slice(0, 4),
+    icons.slice(4, 8),
+    icons.slice(8, 12),
   ]
 
   return (
