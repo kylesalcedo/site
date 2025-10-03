@@ -1,7 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Hand, Linkedin, Instagram, HandHeart, ClipboardList, BriefcaseMedical, Handshake, MessageCircleMore, Github, Youtube, CuboidIcon as Cube } from "lucide-react"
+import { Hand, Linkedin, Instagram, HandHeart, ClipboardList, BriefcaseMedical, Handshake, MessageCircleMore, Github, Youtube, CuboidIcon as Cube, Music } from "lucide-react"
 import XLogo from "./x-logo"
 import TikTokLogo from "./tiktok-logo"
 // import TikTokLogo from "./tiktok-logo" // temporarily disabled
@@ -85,6 +85,12 @@ export default function SocialIcons({ onHover, onHoverEnd }: SocialIconsProps) {
       href: "https://www.homehands.lol/",
       label: "HomeHands",
       hoverText: "[homehands]",
+    },
+    {
+      icon: Music,
+      href: "https://open.spotify.com/user/kylesalcedo",
+      label: "Spotify",
+      hoverText: "[spotify]",
     },
   ]
 
