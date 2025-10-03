@@ -10,12 +10,16 @@ interface ErrorPopupProps {
   onClose: () => void
 }
 
-export default function ErrorPopup({ errorMessage = "", position = { x: 0, y: 0 }, onClose = () => {} }: Partial<ErrorPopupProps>) {
+export default function ErrorPopup({ errorMessage, position, onClose }: Partial<ErrorPopupProps>) {
+  if (!errorMessage || !position || !onClose) {
+    return null
+  }
+
   return (
     <div>
       <div
         className="fixed z-50 bg-white rounded-md shadow-lg w-80 overflow-hidden"
-        style={{ left: position.x, top: position.y }} // Use position directly for static positioning
+        style={{ left: position.x, top: position.y }}
       >
         <div className="bg-blue-600 text-white px-4 py-2 flex items-center justify-between">
           <div className="flex items-center">
